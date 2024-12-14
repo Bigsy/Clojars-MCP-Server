@@ -14,7 +14,6 @@ interface ClojarsResponse {
   jar_name: string;
   latest_release: string;
   latest_version: string;
-  recent_versions: string[];
 }
 
 const isValidDependencyArgs = (args: any): args is { dependency: string } =>
@@ -61,8 +60,8 @@ class ClojarsServer {
     this.server.setRequestHandler(ListToolsRequestSchema, async () => ({
       tools: [
         {
-          name: 'get_clojars_version',
-          description: 'Get version information for a Clojars dependency (Maven artifact)',
+          name: 'get_clojars_latest_version',
+          description: 'Get the latest version of a Clojars dependency (Maven artifact)',
           inputSchema: {
             type: 'object',
             properties: {
@@ -78,7 +77,7 @@ class ClojarsServer {
     }));
 
     this.server.setRequestHandler(CallToolRequestSchema, async (request) => {
-      if (request.params.name !== 'get_clojars_version') {
+      if (request.params.name !== 'get_clojars_latest_version') {
         throw new McpError(
           ErrorCode.MethodNotFound,
           `Unknown tool: ${request.params.name}`
@@ -106,8 +105,7 @@ class ClojarsServer {
               text: JSON.stringify(
                 {
                   dependency: `${group}/${artifact}`,
-                  latest_version: response.data.latest_release || response.data.latest_version,
-                  recent_versions: response.data.recent_versions || [],
+                  latest_version: response.data.latest_release || response.data.latest_version
                 },
                 null,
                 2

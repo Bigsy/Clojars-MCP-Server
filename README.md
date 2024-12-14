@@ -1,22 +1,22 @@
 # Clojars MCP Server
 
-A [Model Context Protocol (MCP)](https://github.com/ModelContextprotocol) server that provides tools for fetching dependency information from [Clojars](https://clojars.org/), the Clojure community's artifact repository.
+A [Model Context Protocol (MCP)](https://github.com/ModelContext/protocol) server that provides tools for fetching dependency information from [Clojars](https://clojars.org/), the Clojure community's artifact repository.
 
 ## Features
 
-- Fetch latest version information for any Clojars dependency
-- Get full version history with download statistics
-- Simple integration with Claude through MCP
+- Get the latest version of any Clojars dependency
+- Simple, focused responses
+- Easy integration with Claude through MCP
 
 ## How It Works
 
 When this MCP server is configured in Claude's settings, it automatically becomes available in Claude's system prompt under the "Connected MCP Servers" section. This makes Claude aware of the server's capabilities and allows it to use the provided tools through the `use_mcp_tool` command.
 
-The server exposes a tool called `get_clojars_version` with the following schema:
+The server exposes a tool called `get_clojars_latest_version` with the following schema:
 ```json
 {
-  "name": "get_clojars_version",
-  "description": "Get version information for a Clojars dependency (Maven artifact)",
+  "name": "get_clojars_latest_version",
+  "description": "Get the latest version of a Clojars dependency (Maven artifact)",
   "inputSchema": {
     "type": "object",
     "properties": {
@@ -30,8 +30,8 @@ The server exposes a tool called `get_clojars_version` with the following schema
 }
 ```
 
-The tool name and description are specifically designed to help Claude understand that this tool is for retrieving version information from Clojars. When users ask about Clojars dependencies, Claude can recognize that this tool is appropriate for the task based on:
-- The tool name `get_clojars_version` explicitly mentions Clojars
+The tool name and description are specifically designed to help Claude understand that this tool is for retrieving the latest version of Clojars dependencies. When users ask about Clojars dependency versions, Claude can recognize that this tool is appropriate for the task based on:
+- The tool name `get_clojars_latest_version` explicitly indicates it fetches the latest version from Clojars
 - The description specifies it's for "Clojars dependency (Maven artifact)"
 - The example format shows a typical Clojars dependency pattern
 
@@ -88,33 +88,19 @@ When you ask Claude about Clojars dependencies, it will recognize that this tool
 ```
 Human: What's the latest version of metosin/reitit?
 Assistant: Let me check the Clojars repository for that information.
-[Uses get_clojars_version tool]
+[Uses get_clojars_latest_version tool]
 Response:
 {
   "dependency": "metosin/reitit",
-  "latest_version": "0.7.2",
-  "recent_versions": [
-    {
-      "version": "0.7.2",
-      "downloads": 132613
-    },
-    {
-      "version": "0.7.1",
-      "downloads": 43840
-    },
-    {
-      "version": "0.7.0",
-      "downloads": 31662
-    }
-    // ... more versions
-  ]
+  "latest_version": "0.7.2"
 }
 ```
 
-The tool returns:
-- The latest version of the dependency
-- A complete version history with download statistics
-- Proper error handling for cases like dependency not found
+The tool returns just the essential information:
+- The dependency name
+- Its latest version
+
+This focused response format makes it easy to quickly get the version information you need.
 
 ## Development
 
