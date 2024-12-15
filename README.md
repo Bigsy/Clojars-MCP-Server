@@ -1,6 +1,6 @@
 # Clojars MCP Server
 
-A [Model Context Protocol (MCP)](https://github.com/ModelContext/protocol) server that provides tools for fetching dependency information from [Clojars](https://clojars.org/), the Clojure community's artifact repository.
+A [Model Context Protocol (MCP)](https://github.com/ModelContextprotocol) server that provides tools for fetching dependency information from [Clojars](https://clojars.org/), the Clojure community's artifact repository.
 
 ## Features
 
