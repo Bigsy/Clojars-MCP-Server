@@ -1,12 +1,12 @@
 # Clojars MCP Server
 
-A [Model Context Protocol (MCP)](https://github.com/ModelContextprotocol) server that provides tools for fetching dependency information from [Clojars](https://clojars.org/), the Clojure community's artifact repository.
-
+A [Model Context Protocol (MCP)](https://github.com/ModelContext/protocol) server that provides tools for fetching dependency information from [Clojars](https://clojars.org/), the Clojure community's artifact repository.
 <a href="https://glama.ai/mcp/servers/i37857er6w"><img width="380" height="200" src="https://glama.ai/mcp/servers/i37857er6w/badge" alt="Clojars-MCP-Server MCP server" /></a>
 
 ## Features
 
 - Get the latest version of any Clojars dependency
+- Check if a specific version of a dependency exists
 - Simple, focused responses
 - Easy integration with Claude through MCP
 
@@ -14,7 +14,9 @@ A [Model Context Protocol (MCP)](https://github.com/ModelContextprotocol) server
 
 When this MCP server is configured in Claude's settings, it automatically becomes available in Claude's system prompt under the "Connected MCP Servers" section. This makes Claude aware of the server's capabilities and allows it to use the provided tools through the `use_mcp_tool` command.
 
-The server exposes a tool called `get_clojars_latest_version` with the following schema:
+The server exposes two tools:
+
+### get_clojars_latest_version
 ```json
 {
   "name": "get_clojars_latest_version",
@@ -32,10 +34,32 @@ The server exposes a tool called `get_clojars_latest_version` with the following
 }
 ```
 
-The tool name and description are specifically designed to help Claude understand that this tool is for retrieving the latest version of Clojars dependencies. When users ask about Clojars dependency versions, Claude can recognize that this tool is appropriate for the task based on:
-- The tool name `get_clojars_latest_version` explicitly indicates it fetches the latest version from Clojars
-- The description specifies it's for "Clojars dependency (Maven artifact)"
-- The example format shows a typical Clojars dependency pattern
+### check_clojars_version_exists
+```json
+{
+  "name": "check_clojars_version_exists",
+  "description": "Check if a specific version of a Clojars dependency exists",
+  "inputSchema": {
+    "type": "object",
+    "properties": {
+      "dependency": {
+        "type": "string",
+        "description": "Clojars dependency name in format \"group/artifact\" (e.g. \"metosin/reitit\")"
+      },
+      "version": {
+        "type": "string",
+        "description": "Version to check (e.g. \"0.7.2\")"
+      }
+    },
+    "required": ["dependency", "version"]
+  }
+}
+```
+
+The tool names and descriptions are specifically designed to help Claude understand that these tools are for retrieving version information from Clojars. When users ask about Clojars dependencies, Claude can recognize that these tools are appropriate for the task based on:
+- The tool names explicitly indicate their purpose
+- The descriptions specify they're for "Clojars dependency (Maven artifact)"
+- The example formats show typical Clojars dependency patterns
 
 ## Installation
 
@@ -83,43 +107,3 @@ For Claude desktop app, add to `claude_desktop_config.json` (typically located a
 
 After adding the server configuration, Claude will automatically detect and connect to the server on startup. The server's capabilities will be listed in Claude's system prompt under "Connected MCP Servers", making them available for use.
 
-## Example Usage
-
-When you ask Claude about Clojars dependencies, it will recognize that this tool is appropriate based on its name and description. Here's an example:
-
-```
-Human: What's the latest version of metosin/reitit?
-Assistant: Let me check the Clojars repository for that information.
-[Uses get_clojars_latest_version tool]
-Response:
-{
-  "dependency": "metosin/reitit",
-  "latest_version": "0.7.2"
-}
-```
-
-The tool returns just the essential information:
-- The dependency name
-- Its latest version
-
-This focused response format makes it easy to quickly get the version information you need.
-
-## Development
-
-The server is built with TypeScript and uses:
-- `@modelcontextprotocol/sdk` for MCP server implementation
-- `axios` for making HTTP requests to the Clojars API
-
-To make changes:
-1. Edit the source code in `src/index.ts`
-2. Run `npm run build` to compile
-3. Restart Claude to pick up the changes
-
-## Error Handling
-
-The server handles various error cases:
-- Invalid dependency format (must be "group/artifact")
-- Dependency not found on Clojars
-- API errors from Clojars
-
-Error responses include descriptive messages to help troubleshoot issues.
