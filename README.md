@@ -2,6 +2,8 @@
 
 A [Model Context Protocol (MCP)](https://github.com/ModelContextprotocol) server that provides tools for fetching dependency information from [Clojars](https://clojars.org/), the Clojure community's artifact repository.
 
+<a href="https://glama.ai/mcp/servers/i37857er6w"><img width="380" height="200" src="https://glama.ai/mcp/servers/i37857er6w/badge" alt="Clojars-MCP-Server MCP server" /></a>
+
 ## Features
 
 - Get the latest version of any Clojars dependency
