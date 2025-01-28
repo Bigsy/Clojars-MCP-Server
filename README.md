@@ -1,5 +1,6 @@
 # Clojars MCP Server
 
+[![smithery badge](https://smithery.ai/badge/clojars-deps-server)](https://smithery.ai/server/clojars-deps-server)
 A [Model Context Protocol (MCP)](https://github.com/ModelContext/protocol) server that provides tools for fetching dependency information from [Clojars](https://clojars.org/), the Clojure community's artifact repository.
 
 <a href="https://glama.ai/mcp/servers/i37857er6w"><img width="380" height="200" src="https://glama.ai/mcp/servers/i37857er6w/badge" alt="Clojars-MCP-Server MCP server" /></a>
@@ -64,6 +65,15 @@ The tool names and descriptions are specifically designed to help Claude underst
 
 ## Installation
 
+### Installing via Smithery
+
+To install Clojars Dependency Server for Claude Desktop automatically via [Smithery](https://smithery.ai/server/clojars-deps-server):
+
+```bash
+npx -y @smithery/cli install clojars-deps-server --client claude
+```
+
+### Manual Installation
 1. Clone this repository:
 ```bash
 git clone https://github.com/yourusername/clojars-deps-server.git
@@ -107,4 +117,3 @@ For Claude desktop app, add to `claude_desktop_config.json` (typically located a
 ```
 
 After adding the server configuration, Claude will automatically detect and connect to the server on startup. The server's capabilities will be listed in Claude's system prompt under "Connected MCP Servers", making them available for use.
-
