@@ -1,7 +1,8 @@
 # Clojars MCP Server
 
-[![smithery badge](https://smithery.ai/badge/clojars-deps-server)](https://smithery.ai/server/clojars-deps-server)
-A [Model Context Protocol (MCP)](https://github.com/ModelContext/protocol) server that provides tools for fetching dependency information from [Clojars](https://clojars.org/), the Clojure community's artifact repository.
+[![npm version](https://img.shields.io/npm/v/clojars-deps-server.svg)](https://www.npmjs.com/package/clojars-deps-server)
+
+A [Model Context Protocol (MCP)](https://github.com/ModelContext/protocol) server that provides tools for fetching dependency information from [Clojars](https://clojars.org/), the Clojure community's artifact repository for Cline, Roo Code, Cody, Claude Desktop etc.
 
 <a href="https://glama.ai/mcp/servers/i37857er6w"><img width="380" height="200" src="https://glama.ai/mcp/servers/i37857er6w/badge" alt="Clojars-MCP-Server MCP server" /></a>
 
