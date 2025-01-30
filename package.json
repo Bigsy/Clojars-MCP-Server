@@ -1,6 +1,6 @@
 {
   "name": "clojars-deps-server",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "A Model Context Protocol server for fetching Clojars dependency information",
   "type": "module",
   "bin": {
@@ -25,12 +25,13 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/bigsy/clojars-deps-server"
+    "url": "https://github.com/Bigsy/Clojars-MCP-Server"
   },
   "keywords": [
     "mcp",
     "modelcontextprotocol",
     "clojars",
+    "cline",
     "claude",
     "dependencies"
   ],
