@@ -17,7 +17,8 @@
   },
   "dependencies": {
     "@modelcontextprotocol/sdk": "0.6.0",
-    "axios": "^1.7.9"
+    "axios": "^1.7.9",
+    "mcp-evals": "^1.0.18"
   },
   "devDependencies": {
     "@types/node": "^20.11.24",
