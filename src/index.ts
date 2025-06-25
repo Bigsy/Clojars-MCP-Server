@@ -29,6 +29,13 @@ const isValidVersionCheckArgs = (args: any): args is { dependency: string; versi
   args.dependency.includes('/') &&
   typeof args.version === 'string';
 
+const isValidHistoryArgs = (args: any): args is { dependency: string; limit?: number } =>
+  typeof args === 'object' &&
+  args !== null &&
+  typeof args.dependency === 'string' &&
+  args.dependency.includes('/') &&
+  (args.limit === undefined || (typeof args.limit === 'number' && args.limit > 0 && args.limit <= 100));
+
 class ClojarsServer {
   private server: Server;
   private axiosInstance;
@@ -37,7 +44,7 @@ class ClojarsServer {
     this.server = new Server(
       {
         name: 'clojars-deps-server',
-        version: '0.1.0',
+        version: '0.2.0',
       },
       {
         capabilities: {
@@ -96,6 +103,26 @@ class ClojarsServer {
               },
             },
             required: ['dependency', 'version'],
+          },
+        },
+        {
+          name: 'get_clojars_history',
+          description: 'Get version history of a Clojars dependency',
+          inputSchema: {
+            type: 'object',
+            properties: {
+              dependency: {
+                type: 'string',
+                description: 'Clojars dependency name in format "group/artifact" (e.g. "metosin/reitit")',
+              },
+              limit: {
+                type: 'number',
+                description: 'Number of versions to return (default: 15, max: 100)',
+                minimum: 1,
+                maximum: 100,
+              },
+            },
+            required: ['dependency'],
           },
         },
       ],
@@ -190,6 +217,62 @@ class ClojarsServer {
                     dependency: `${group}/${artifact}`,
                     version: version,
                     exists: exists
+                  },
+                  null,
+                  2
+                ),
+              },
+            ],
+          };
+        } catch (error) {
+          if (axios.isAxiosError(error)) {
+            const message = error.response?.status === 404
+              ? `Dependency ${group}/${artifact} not found on Clojars`
+              : `Clojars API error: ${error.message}`;
+            
+            return {
+              content: [
+                {
+                  type: 'text',
+                  text: message,
+                },
+              ],
+              isError: true,
+            };
+          }
+          throw error;
+        }
+      } else if (request.params.name === 'get_clojars_history') {
+        if (!isValidHistoryArgs(request.params.arguments)) {
+          throw new McpError(
+            ErrorCode.InvalidParams,
+            'Invalid arguments. Expected "dependency" in format "group/artifact" and optional "limit" (1-100)'
+          );
+        }
+
+        const [group, artifact] = request.params.arguments.dependency.split('/');
+        const limit = request.params.arguments.limit || 15;
+
+        try {
+          const response = await this.axiosInstance.get<string>(
+            `/${group.replace(/\./g, '/')}/${artifact}/maven-metadata.xml`
+          );
+
+          const versionsMatch = response.data.match(/<version>(.*?)<\/version>/g);
+          const allVersions = versionsMatch?.map(v => v.replace(/<\/?version>/g, '')) || [];
+          
+          const versions = allVersions.slice(-limit).reverse();
+
+          return {
+            content: [
+              {
+                type: 'text',
+                text: JSON.stringify(
+                  {
+                    dependency: `${group}/${artifact}`,
+                    versions: versions,
+                    total_versions: allVersions.length,
+                    showing: versions.length
                   },
                   null,
                   2

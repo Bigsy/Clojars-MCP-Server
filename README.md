@@ -80,6 +80,7 @@ After adding the server configuration, Claude will automatically detect and conn
 
 - Get the latest version of any Clojars dependency
 - Check if a specific version of a dependency exists
+- Get version history of dependencies with configurable limits
 - Simple, focused responses
 - Easy integration with Claude through MCP
 
@@ -87,7 +88,7 @@ After adding the server configuration, Claude will automatically detect and conn
 
 When this MCP server is configured in Claude's settings, it automatically becomes available in Claude's system prompt under the "Connected MCP Servers" section. This makes Claude aware of the server's capabilities and allows it to use the provided tools through the `use_mcp_tool` command.
 
-The server exposes two tools:
+The server exposes three tools:
 
 ### get_clojars_latest_version
 ```json
@@ -125,6 +126,30 @@ The server exposes two tools:
       }
     },
     "required": ["dependency", "version"]
+  }
+}
+```
+
+### get_clojars_history
+```json
+{
+  "name": "get_clojars_history",
+  "description": "Get version history of a Clojars dependency",
+  "inputSchema": {
+    "type": "object",
+    "properties": {
+      "dependency": {
+        "type": "string",
+        "description": "Clojars dependency name in format \"group/artifact\" (e.g. \"metosin/reitit\")"
+      },
+      "limit": {
+        "type": "number",
+        "description": "Number of versions to return (default: 15, max: 100)",
+        "minimum": 1,
+        "maximum": 100
+      }
+    },
+    "required": ["dependency"]
   }
 }
 ```
