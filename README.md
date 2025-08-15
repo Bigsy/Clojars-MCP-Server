@@ -1,10 +1,12 @@
 # Clojars MCP Server
 
 [![npm version](https://img.shields.io/npm/v/clojars-deps-server.svg)](https://www.npmjs.com/package/clojars-deps-server)
+[![Trust Score](https://archestra.ai/mcp-catalog/api/badge/quality/Bigsy/Clojars-MCP-Server)](https://archestra.ai/mcp-catalog/Bigsy__Clojars-MCP-Server)
+
+<a href="https://glama.ai/mcp/servers/i37857er6w"><img width="380" height="200" src="https://glama.ai/mcp/servers/i37857er6w/badge" alt="Clojars-MCP-Server MCP server" /></a>
 
 A [Model Context Protocol (MCP)](https://github.com/ModelContext/protocol) server that provides tools for fetching dependency information from [Clojars](https://clojars.org/), the Clojure community's artifact repository for Cline, Roo Code, Cody, Claude Desktop etc.
 
-<a href="https://glama.ai/mcp/servers/i37857er6w"><img width="380" height="200" src="https://glama.ai/mcp/servers/i37857er6w/badge" alt="Clojars-MCP-Server MCP server" /></a>
 
 ## Installation
 
@@ -158,4 +160,3 @@ The tool names and descriptions are specifically designed to help Claude underst
 - The tool names explicitly indicate their purpose
 - The descriptions specify they're for "Clojars dependency (Maven artifact)"
 - The example formats show typical Clojars dependency patterns
-
