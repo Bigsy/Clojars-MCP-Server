@@ -76,6 +76,15 @@ For Claude desktop app, add to `claude_desktop_config.json` (typically located a
 After adding the server configuration, Claude will automatically detect and connect to the server on startup. The server's capabilities will be listed in Claude's system prompt under "Connected MCP Servers", making them available for use.
 
 
+
+
+## Running evals
+
+The evals package loads an mcp client that then runs the index.ts file, so there is no need to rebuild between tests. You can load environment variables by prefixing the npx command. Full documentation can be found [here](https://www.mcpevals.io/docs).
+
+```bash
+OPENAI_API_KEY=your-key  npx mcp-eval src/evals/evals.ts src/index.ts
+```
 ## Features
 
 - Get the latest version of any Clojars dependency
