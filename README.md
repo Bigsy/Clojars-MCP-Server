@@ -6,6 +6,10 @@ A [Model Context Protocol (MCP)](https://github.com/ModelContext/protocol) serve
 
 <a href="https://glama.ai/mcp/servers/i37857er6w"><img width="380" height="200" src="https://glama.ai/mcp/servers/i37857er6w/badge" alt="Clojars-MCP-Server MCP server" /></a>
 
+## Hosted deployment
+
+A hosted deployment is available on [Fronteir AI](https://fronteir.ai/mcp/bigsy-clojars-mcp-server).
+
 ## Installation
 
 ### Installing via npx
